@@ -48,6 +48,19 @@ const userSchema = mongoose.Schema({
     isVerified: {
         type: Boolean,
         default: false
+    },
+    uniqueName: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    loginAttempts: {
+        type: Number,
+        default: 0
+    },
+    lockUntil: {
+        type: Date,
+        default: null
     }
 }, { timestamps: true })
 

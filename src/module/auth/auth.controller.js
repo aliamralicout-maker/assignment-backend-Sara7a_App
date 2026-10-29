@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { genaretAccessToken, getAllUsers, getUserById, signIn, signUp, verfyAcount } from "./auth.service.js";
+import { genaretAccessToken, getAllUsers, getUserById, signIn, signUp, verfyAcount, verifyLoginOtp } from "./auth.service.js";
 import { auth } from '../../common/middleware/auth.middleware.js'
 import { userLoginSchema, userRegisterSchema } from "./auth.validation.js";
 import { validation } from "../../common/middleware/services/validation.service.js";
@@ -24,6 +24,7 @@ router.post('/signIn', validation(userLoginSchema), async (req, res) => {
 
 // get user by id
 router.get('/get-user-by-id', auth, async (req, res) => {
+    console.log('User ID from auth middleware:', req.user);
     const data = await getUserById(req.user.id)
     res.json(data)
 })
@@ -47,7 +48,10 @@ router.get('/get-all-users',auth, checkRole(['admin']) , async (req, res) => {
     res.json(data)
 })
 
-
+router.post('/verify-login-otp', async(req,res)=>{
+    const data = await verifyLoginOtp(req.body)
+    res.json(data)
+})
 
 
 

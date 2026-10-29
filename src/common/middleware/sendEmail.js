@@ -10,10 +10,11 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-export const sendEmail = async ({to, subject, html}) => {
-transporter.sendMail({
-    from: 'sara7sApp',
-    to,
-    subject,
-    html
-})}
+export const sendEmail = async ({ to, subject, html }) => {
+    return await transporter.sendMail({
+        from: 'sara7sApp',
+        to,
+        subject,
+        html
+    })
+}

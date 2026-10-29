@@ -2,6 +2,7 @@ import express from 'express'
 import { databaseConnection } from './database/connections.js'
 import { env } from './config/env.service.js'
 import authRouter from '../src/module/auth/auth.controller.js'
+import messasgeRouter from './module/messages/message.controller.js'
 import { redisConnection } from './database/Redis/redis.connection.js'
 
 import { fileURLToPath } from 'node:url';
@@ -15,6 +16,7 @@ const uploadPath = path.resolve(__dirname, '../uploads')
 const app = express()
 app.use(express.json())
 app.use('/auth', authRouter)
+app.use('/messages', messasgeRouter)
 app.use('/uploads',express.static(uploadPath))
 
 databaseConnection()
@@ -29,4 +31,4 @@ app.use((err,req,res,next)=>{
 
 app.listen(env.port , ()=>{
     console.log({message: `server is runing in port ${env.port}`});
-})
+}) 
