@@ -10,3 +10,10 @@ export const providerEnum = {
     system: 0,
     google: 1
 }
+
+export const status = {
+    pending: "pending",
+    accepted: "accepted",
+    rejected: "rejected"
+}
+

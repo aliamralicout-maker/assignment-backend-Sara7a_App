@@ -24,3 +24,7 @@ export const notFoundException = ({ message = "not found", extra } = {}) => {
 export const conflicException = ({ message = 'conflict error', extra } = {}) => {
     return errorResponse({ status: 409, message, extra })
 }
+
+export const forbiddenException = ({ message = "You are not authorized to respond to this identity request", extra } = {}) => {
+    return errorResponse({ status: 403, message, extra })
+}

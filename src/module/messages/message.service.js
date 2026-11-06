@@ -1,4 +1,4 @@
-import { notFoundException } from "../../common/exciptions/error.exciptions.js"
+import { conflicException, notFoundException } from "../../common/exciptions/error.exciptions.js"
 import { messageModel } from "../../database/model/message.model.js"
 import { userModel } from "../../database/model/user.model.js"
 
@@ -8,25 +8,27 @@ export const getAllMessages = async () => {
     // Fetch all message documents from the database
     const messages = await messageModel.find()
     // Check if no messages were found
-    if (messages.length == 0)return notFoundException({ message: "not found messages" })
+    if (messages.length == 0) return notFoundException({ message: "not found messages" })
     // Return a success message along with all retrieved messages
     return { message: "found messages", messages }
 }
 
 // Function responsible for sending a new message
-export const sendMessage = async (body, file) => {
+export const sendMessage = async (body, file, senderId) => {
     // Extract the message content and receiver's ID from the request body
     const { content, receiverId } = body
     // Get the uploaded image path, or undefined if no file was uploaded
     const image = file?.path
     // Check that both the message content and receiver ID are provided
-    if (!content || !receiverId) return notFoundException({ message: "content and receiverId are required" })
+    if (!content || !receiverId || !senderId) return notFoundException({ message: "content, receiverId and senderId are required" })
+    // Prevent users from sending messages to themselves
+    if(receiverId == senderId) return conflicException({message: "You cannot send a message to yourself"})
     // Find the receiver in the database using their ID
     const existedUser = await userModel.findById(receiverId)
     // Stop the operation if the receiver does not exist
     if (!existedUser) return notFoundException({ message: "user not found" })
     // Create a new message in the database with its content, receiver, and optional image
-    const message = await messageModel.create({ content, receiverId, image })
+    const message = await messageModel.create({ content, receiverId, senderId, image })
     // Check whether the message was created successfully
     if (!message) return notFoundException({ message: "message not sent" })
     // Return a success message along with the created message data

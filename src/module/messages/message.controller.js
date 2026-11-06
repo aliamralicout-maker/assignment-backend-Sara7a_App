@@ -14,8 +14,8 @@ router.get('/get-all-messages', async (req, res) => {
     successResponse({ res, messaege: data.messages, data:data.messages })
 })
 
-router.post('/send-message', upload().single('image'), async (req, res) => {
-    const data = await sendMessage(req.body, req.file)
+router.post('/send-message', auth ,upload().single('image'), async (req, res) => {
+    const data = await sendMessage(req.body, req.file, req.user?.id)
     successResponse({ res, message: data.message })
 })
 

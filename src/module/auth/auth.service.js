@@ -16,7 +16,7 @@ export const signUp = async (body, file) => {
     if (findUser) return conflicException({ message: 'email already  exists' })
     // find user by uniqueName
     const findUniqueName = await userModel.findOne({ uniqueName })
-    if (!findUniqueName) return conflicException({ message: "uniqueName already exists" })
+    if (findUniqueName) return conflicException({ message: "uniqueName already exists" })
     // check password
     if (confirmPassword !== password) return badRequestException({ message: "passwords do not match" })
     //  else                                              convert string to number 

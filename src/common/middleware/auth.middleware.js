@@ -28,7 +28,6 @@ export const auth = (req, res, next) => {
             }
             const decodedData = jwt.verify(token, signature)
             if (decodedData) {
-                console.log('from auth middleware', decodedData)
                 req.user = decodedData
                 next()
             } else {
