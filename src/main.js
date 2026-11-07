@@ -4,6 +4,7 @@ import { env } from './config/env.service.js'
 import authRouter from '../src/module/auth/auth.controller.js'
 import messasgeRouter from './module/messages/message.controller.js'
 import identityRequestRouter from './module/identityRequest/identityRequest.controller.js'
+import conversationRouter from './module/conversation/conversation.controller.js'
 import { redisConnection } from './database/Redis/redis.connection.js'
 
 import { fileURLToPath } from 'node:url';
@@ -19,6 +20,7 @@ app.use(express.json())
 app.use('/auth', authRouter)
 app.use('/messages', messasgeRouter)
 app.use('/identity-requests', identityRequestRouter)
+app.use('/conversation' , conversationRouter)
 app.use('/uploads',express.static(uploadPath))
 
 databaseConnection()
